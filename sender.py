@@ -15,9 +15,9 @@ sock.settimeout(1)
 
 # Set the time-to-live for messages to 1 so they do not go past the
 # local network segment.
-ttl = struct.pack('b', 1)
-sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
-
+ttl = struct.pack('b', 2)
+# sock.setsockopt(socket.IPPROTO_IP, socket.IP_MULTICAST_TTL, ttl)
+sock.setsockopt(socket.SOL_SOCKET, socket.SO_REUSEADDR, 1)
 def send(msg):
     try:
         # Send data to the multicast group

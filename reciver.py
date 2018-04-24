@@ -14,7 +14,7 @@ def gerar_cartela():
     return sorteados
 
 multicast_group = '224.3.29.71'
-server_address = ('', 10000)
+server_address = (input("Endereço do servidor: "), 10000)
 cartela = gerar_cartela()
 print(cartela)
 
@@ -29,11 +29,14 @@ sock.bind(server_address)
 group = socket.inet_aton(multicast_group)
 mreq = struct.pack('4sL', group, socket.INADDR_ANY)
 sock.setsockopt(socket.IPPROTO_IP, socket.IP_ADD_MEMBERSHIP, mreq)
+sock.settimeout(60)
 
 # Receive/respond loop
 while True:
-    data, address = sock.recvfrom(1024)
-
+    try: 
+        data, address = sock.recvfrom(1024)
+    except socket.timeout:
+        break
     if(data.decode("utf-8") == "fim"): break
     pedras = list(map(int, data.decode("utf-8")[1 : -1].split(", ")))
     for i in pedras:

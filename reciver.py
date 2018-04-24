@@ -35,10 +35,12 @@ while True:
     data, address = sock.recvfrom(1024)
 
     if(data.decode("utf-8") == "fim"): break
-    pedras = data.decode("utf-8")[1 : -1].split(", ")
-    if int(pedras[-1]) in cartela:
-        cartela.remove(int(pedras[-1]))
-    print(pedras)
+    pedras = list(map(int, data.decode("utf-8")[1 : -1].split(", ")))
+    for i in pedras:
+        if i in cartela:
+            cartela.remove(i)
+            print(cartela)
+    print(pedras[-1])
 
     if len(cartela) == 0:
       sock.sendto('ganhei'.encode("utf-8"), address)  

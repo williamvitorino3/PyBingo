@@ -51,7 +51,7 @@ while len(numbers) > 0:
     sent = sock.sendto(str(sorteados).encode("utf-8"), multicast_group)
     try:
         data, server = sock.recvfrom(1024)
-        print("Ganhador: {}".format(server))
+        print("Ganhador: {}".format(server[0]))
         numbers = []
     except socket.timeout:
         continue
